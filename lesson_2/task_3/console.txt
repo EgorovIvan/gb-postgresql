@@ -1,0 +1,4 @@
+
+postgres@Ubuntu22:~$ pg_dump --inserts vk > vk.dump.sql
+postgres=# CREATE DATABASE vk_staging;
+postgres@Ubuntu22:~$ psql vk_staging < vk.dump.sql
