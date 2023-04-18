@@ -1,0 +1,13 @@
+
+vk=> ALTER TABLE communities ADD COLUMN members VARCHAR(50)[];
+ALTER TABLE
+
+
+vk=> UPDATE communities SET members = '{25, 34, 71, 80}' WHERE id = 3;
+UPDATE 1
+
+vk=> SELECT * FROM communities WHERE id = 3;
+ id |        name        | creator_id |     created_at      |    members
+----+--------------------+------------+---------------------+---------------
+  3 | pretium et, rutrum |          8 | 2023-02-16 00:00:00 | {25,34,71,80}
+(1 row)

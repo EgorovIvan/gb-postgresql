@@ -1,0 +1,19 @@
+
+vk=> CREATE TYPE contacts_type AS (phone VARCHAR(15), email VARCHAR(120));
+CREATE TYPE
+
+
+vk=> ALTER TABLE users ADD COLUMN user_contacts contacts_type;
+ALTER TABLE
+
+                             ^
+vk=> UPDATE users
+vk-> SET user_contacts = (phone, email)::contacts_type;
+UPDATE 100
+
+
+vk=> SELECT * FROM users WHERE id = 5;
+ id | first_name | last_name |          email          |     phone      | main_photo_id |     created_at      |              user_contacts
+----+------------+-----------+-------------------------+----------------+---------------+---------------------+------------------------------------------
+  5 | Wang       | Bray      | felis.purus@hotmail.net | 1-946-820-2216 |           780 | 2023-08-05 00:00:00 | (1-946-820-2216,felis.purus@hotmail.net)
+(1 row)

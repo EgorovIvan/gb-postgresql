@@ -1,8 +1,8 @@
-CREATE TABLE subscribe (
+CREATE TABLE subscriptions (
 	id SERIAL PRIMARY KEY,
-	owner_id INT NOT NULL,
-	to_community_id INT,
-	to_user_id INT,
+	subscriber_id INT NOT NULL,
+	subscription_to_id INT,
+	is_community BOOLEAN
 );
 
 CREATE TABLE users (

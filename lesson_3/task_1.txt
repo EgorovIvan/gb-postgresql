@@ -1,0 +1,118 @@
+vk=> ALTER TABLE subscriptions
+vk-> ADD CONSTRAINT subscriptions_subscription_to_id_fk
+vk-> FOREIGN KEY (subscription_to_id)
+vk-> REFERENCES users (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+
+vk=> ALTER TABLE subscriptions
+vk-> ADD CONSTRAINT subscriptions_subscription_to_community_id_fk
+vk-> FOREIGN KEY (subscription_to_id)
+vk-> REFERENCES communities (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+
+vk=> ALTER TABLE friendship
+vk-> ADD CONSTRAINT friendship_requested_from_user_id_fk
+vk-> FOREIGN KEY (requested_from_user_id)
+vk-> REFERENCES users (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+
+vk=> ALTER TABLE friendship
+vk-> ADD CONSTRAINT friendship_requested_to_user_id_fk
+vk-> FOREIGN KEY (requested_to_user_id)
+vk-> REFERENCES users (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+
+vk=> ALTER TABLE friendship
+vk-> ADD CONSTRAINT friendship_status_id_fk
+vk-> FOREIGN KEY (status_id)
+vk-> REFERENCES friendship_statuses (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+
+vk=>  ALTER TABLE communities
+vk-> ADD CONSTRAINT communities_creator_id_fk
+vk-> FOREIGN KEY (creator_id)
+vk-> REFERENCES users (id);
+ALTER TABLE
+
+vk=> ALTER TABLE communities_users
+vk-> ADD CONSTRAINT communities_users_user_id_fk
+vk-> FOREIGN KEY (user_id)
+vk-> REFERENCES users (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+                                              
+vk=> ALTER TABLE photo
+vk-> ADD CONSTRAINT photo_owner_id_fk
+vk-> FOREIGN KEY (owner_id)
+vk-> REFERENCES users (id);
+ALTER TABLE
+
+vk=> ALTER TABLE video
+vk-> ADD CONSTRAINT video_owner_id_fk
+vk-> FOREIGN KEY (owner_id)
+vk-> REFERENCES users (id);
+ALTER TABLE
+
+vk=> ALTER TABLE communities_users
+vk-> ADD CONSTRAINT communities_users_community_id_fk
+vk-> FOREIGN KEY (community_id)
+vk-> REFERENCES communities (id)
+vk-> ON DELETE CASCADE;
+ALTER TABLE
+
+
+
+
+vk=> \d users
+                                          Table "public.users"
+    Column     |            Type             | Collation | Nullable |              Default
+---------------+-----------------------------+-----------+----------+-----------------------------------
+ id            | integer                     |           | not null | nextval('users_id_seq'::regclass)
+ first_name    | character varying(50)       |           | not null |
+ last_name     | character varying(50)       |           | not null |
+ email         | character varying(120)      |           | not null |
+ phone         | character varying(15)       |           |          |
+ main_photo_id | integer                     |           |          |
+ created_at    | timestamp without time zone |           |          |
+ user_contacts | contacts_type               |           |          |
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+    "users_phone_key" UNIQUE CONSTRAINT, btree (phone)
+Foreign-key constraints:
+    "users_main_photo_id_fk" FOREIGN KEY (main_photo_id) REFERENCES photo(id)
+Referenced by:
+    TABLE "communities" CONSTRAINT "communities_creator_id_fk" FOREIGN KEY (creator_id) REFERENCES users(id)
+    TABLE "communities_users" CONSTRAINT "communities_users_user_id_fk" FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    TABLE "friendship" CONSTRAINT "friendship_requested_from_user_id_fk" FOREIGN KEY (requested_from_user_id) REFERENCES users(id) ON DELETE CASCADE
+    TABLE "friendship" CONSTRAINT "friendship_requested_to_user_id_fk" FOREIGN KEY (requested_to_user_id) REFERENCES users(id) ON DELETE CASCADE
+    TABLE "messages" CONSTRAINT "messages_from_users_id_fk" FOREIGN KEY (from_user_id) REFERENCES users(id)
+    TABLE "messages" CONSTRAINT "messages_to_user_id_fk" FOREIGN KEY (to_user_id) REFERENCES users(id) ON DELETE CASCADE
+    TABLE "photo" CONSTRAINT "photo_owner_id_fk" FOREIGN KEY (owner_id) REFERENCES users(id)
+    TABLE "subscriptions" CONSTRAINT "subscriptions_subscription_to_id_fk" FOREIGN KEY (subscription_to_id) REFERENCES users(id) ON DELETE CASCADE
+    TABLE "video" CONSTRAINT "video_owner_id_fk" FOREIGN KEY (owner_id) REFERENCES users(id)
+
+
+vk=> \d communities
+                                        Table "public.communities"
+   Column   |            Type             | Collation | Nullable |                 Default
+------------+-----------------------------+-----------+----------+-----------------------------------------
+ id         | integer                     |           | not null | nextval('communities_id_seq'::regclass)
+ name       | character varying(120)      |           |          |
+ creator_id | integer                     |           | not null |
+ created_at | timestamp without time zone |           |          |
+ members    | character varying(50)[]     |           |          |
+Indexes:
+    "communities_pkey" PRIMARY KEY, btree (id)
+    "communities_name_key" UNIQUE CONSTRAINT, btree (name)
+Foreign-key constraints:
+    "communities_creator_id_fk" FOREIGN KEY (creator_id) REFERENCES users(id)
+Referenced by:
+    TABLE "communities_users" CONSTRAINT "communities_users_community_id_fk" FOREIGN KEY (community_id) REFERENCES communities(id) ON DELETE CASCADE
+    TABLE "subscriptions" CONSTRAINT "subscriptions_subscription_to_community_id_fk" FOREIGN KEY (subscription_to_id) REFERENCES communities(id) ON DELETE CASCADE
+

@@ -1,0 +1,17 @@
+
+vk=> ALTER TABLE photo
+vk-> ADD COLUMN metadata JSON;
+ALTER TABLE
+
+vk=> UPDATE photo SET metadata = json_build_object(
+vk(> 'id', id,
+vk(> 'url', url,
+vk(> 'size', size
+vk(> );
+UPDATE 100
+
+vk=> SELECT * FROM photo WHERE id = 800;
+ id  |          url           | owner_id |         description         |     uploaded_at     | size |                           metadata
+-----+------------------------+----------+-----------------------------+---------------------+------+--------------------------------------------------------------
+ 800 | http://twitter.com/one |       55 | urna justo faucibus lectus, | 2022-05-28 00:00:00 |  824 | {"id" : 800, "url" : "http://twitter.com/one", "size" : 824}
+(1 row)
