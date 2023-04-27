@@ -1,0 +1,201 @@
+postgres@Ubuntu22:~$ psql
+
+psql (14.7 (Ubuntu 14.7-0ubuntu0.22.04.1))
+
+Type "help" for help.
+
+
+
+postgres=# CREATE USER fedor_serov;
+
+CREATE ROLE
+
+postgres=# CREATE USER roman_belov;
+
+CREATE ROLE
+
+postgres=# CREATE ROLE analysts;
+
+CREATE ROLE
+
+postgres=# CREATE ROLE testers;
+
+CREATE ROLE
+
+postgres=# ALTER ROLE fedor_serov WITH PASSWORD  'some_password';
+
+ALTER ROLE
+
+postgres=# ALTER ROLE roman_belov WITH PASSWORD 'some_password';
+
+ALTER ROLE
+
+postgres=# GRANT analysts TO fedor_serov;
+
+GRANT ROLE
+
+postgres=# GRANT testers TO roman_belov;
+
+GRANT ROLE
+
+                                     List of roles
+
+  Role name  |                         Attributes                         |  Member of  
+
+-------------+------------------------------------------------------------+-------------
+
+ analysts    | Cannot login                                               | {}
+
+ developer   | Cannot login                                               | {}
+
+ egorovs     |                                                            | {}
+
+ fedor_serov |                                                            | {analysts}
+
+ gb_user     |                                                            | {}
+
+ ivanovs     |                                                            | {developer}
+
+ petrovd     |                                                            | {developer}
+
+ postgres    | Superuser, Create role, Create DB, Replication, Bypass RLS | {}
+
+ roman_belov |                                                            | {testers}
+
+ testers     | Cannot login                                               | {}
+
+postgres=# \c vk
+
+You are now connected to database "vk" as user "postgres".
+
+vk=# GRANT ALL ON ALL TABLES IN SCHEMA public TO testers;
+
+GRANT
+
+vk=# GRANT SELECT ON ALL TABLES IN SCHEMA public TO analysts;
+
+GRANT
+-[ RECORD 1 ]----------------------------------------------------------
+
+Role name  | analysts
+
+Attributes | Cannot login
+
+Member of  | {}
+
+-[ RECORD 2 ]----------------------------------------------------------
+
+Role name  | developer
+
+Attributes | Cannot login
+
+Member of  | {}
+
+-[ RECORD 3 ]----------------------------------------------------------
+
+Role name  | egorovs
+
+Attributes | 
+
+Member of  | {}
+
+-[ RECORD 4 ]----------------------------------------------------------
+
+Role name  | fedor_serov
+
+Attributes | 
+
+Member of  | {analysts}
+
+-[ RECORD 5 ]----------------------------------------------------------
+
+Role name  | gb_user
+
+Attributes | 
+
+Member of  | {}
+
+-[ RECORD 6 ]----------------------------------------------------------
+
+Role name  | ivanovs
+
+Attributes | 
+
+Member of  | {developer}
+
+-[ RECORD 7 ]----------------------------------------------------------
+
+Role name  | petrovd
+
+Attributes | 
+
+Member of  | {developer}
+
+-[ RECORD 8 ]----------------------------------------------------------
+
+Role name  | postgres
+
+Attributes | Superuser, Create role, Create DB, Replication, Bypass RLS
+
+Member of  | {}
+
+-[ RECORD 9 ]----------------------------------------------------------
+
+Role name  | roman_belov
+
+Attributes | 
+
+Member of  | {testers}
+
+-[ RECORD 10 ]---------------------------------------------------------
+
+Role name  | testers
+
+Attributes | Cannot login
+
+Member of  | {}
+
+
+vk=# \q
+
+postgres@Ubuntu22:~$ psql -U fedor_serov -d vk -h 127.0.0.1 -W
+
+vk=> SELECT * FROM users WHERE id = 10;
+
+
+id | first_name | last_name |               email               |     phone      |     created_at      |                   user_contacts                    | main_photo_id 
+
+----+------------+-----------+-----------------------------------+----------------+---------------------+----------------------------------------------------+---------------
+
+ 10 | Mollie     | Franks    | cursus.nunc.mauris@protonmail.net | 1-348-515-7576 | 2022-09-13 00:00:00 | (1-348-515-7576,cursus.nunc.mauris@protonmail.net) |          1149
+
+(1 row)
+
+postgres@Ubuntu22:~$ psql -U roman_belov -d vk -h 127.0.0.1 -W
+
+Password: 
+
+psql (14.7 (Ubuntu 14.7-0ubuntu0.22.04.1))
+
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+
+Type "help" for help.
+
+
+vk=> UPDATE users SET last_name = 'Fake' WHERE id = 10;
+
+UPDATE 1
+
+vk=> 
+
+
+
+
+
+
+
+
+
+
+
+
