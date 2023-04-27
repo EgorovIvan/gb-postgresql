@@ -1,0 +1,26 @@
+
+vk=> SELECT
+vk-> id AS video_id,
+vk-> (SELECT CONCAT(first_name, ' ', last_name) FROM users WHERE users.id = video.owner_id) AS user,
+vk-> (SELECT
+vk(> (SELECT url FROM photo WHERE photo.id = users.main_photo_id) AS main_photo_url
+vk(> FROM users WHERE users.id = video.owner_id),
+vk-> url AS video_url,
+vk-> size AS video_size
+vk-> FROM video
+vk-> ORDER BY size DESC
+vk-> LIMIT 10;
+ video_id |       user       |        main_photo_url        |          video_url           | video_size
+----------+------------------+------------------------------+------------------------------+------------
+       28 | Phelan Humphrey  | http://bbc.co.uk/group/9     | http://walmart.com/group/9   |        996
+       13 | Ariel Kim        | http://naver.com/en-us       | http://cnn.com/en-us         |        992
+       15 | Oren Burris      | http://netflix.com/en-ca     | https://nytimes.com/fr       |        990
+       22 | Mariko Lamb      | https://guardian.co.uk/site  | https://bbc.co.uk/fr         |        974
+       44 | Rajah Lambert    | http://guardian.co.uk/fr     | http://instagram.com/group/9 |        970
+        6 | Isabelle Estrada | http://facebook.com/sub/cars | https://zoom.us/group/9      |        958
+       94 | Oliver Silva     | http://facebook.com/en-ca    | http://pinterest.com/one     |        941
+       43 | Sandra Welch     | https://google.com/en-ca     | https://ebay.com/sub         |        913
+        3 | Medge Woodward   | https://whatsapp.com/site    | https://youtube.com/settings |        911
+       78 | Maggy Berger     | https://baidu.com/site       | http://reddit.com/sub        |        892
+(10 rows)
+

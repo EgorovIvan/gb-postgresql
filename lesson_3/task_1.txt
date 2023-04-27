@@ -65,6 +65,12 @@ vk-> REFERENCES communities (id)
 vk-> ON DELETE CASCADE;
 ALTER TABLE
 
+vk=> ALTER TABLE users
+vk-> ADD CONSTRAINT users_main_photo_id_fk
+vk-> FOREIGN KEY (cmain_photo_id)
+vk-> REFERENCES photo (id);
+ALTER TABLE
+
 
 
 
