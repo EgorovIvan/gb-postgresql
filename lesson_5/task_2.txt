@@ -1,0 +1,121 @@
+postgres=# \x
+
+Expanded display is on.
+
+postgres=# SELECT * FROM pg_available_extensions LIMIT 10;
+
+
+-[ RECORD 1 ]-----+-----------------------------------------------------------------------
+
+name              | adminpack
+
+default_version   | 2.1
+
+installed_version | 
+
+comment           | administrative functions for PostgreSQL
+
+-[ RECORD 2 ]-----+-----------------------------------------------------------------------
+
+name              | pgcrypto
+
+default_version   | 1.3
+
+installed_version | 
+
+comment           | cryptographic functions
+
+-[ RECORD 3 ]-----+-----------------------------------------------------------------------
+
+name              | sslinfo
+
+default_version   | 1.2
+
+installed_version | 
+
+comment           | information about SSL certificates
+
+-[ RECORD 4 ]-----+-----------------------------------------------------------------------
+
+name              | lo
+
+default_version   | 1.1
+
+installed_version | 
+
+comment           | Large Object maintenance
+
+-[ RECORD 5 ]-----+-----------------------------------------------------------------------
+
+name              | plpgsql
+
+default_version   | 1.0
+
+installed_version | 1.0
+
+comment           | PL/pgSQL procedural language
+
+-[ RECORD 6 ]-----+-----------------------------------------------------------------------
+
+name              | pg_stat_statements
+
+default_version   | 1.9
+
+installed_version | 
+
+comment           | track planning and execution statistics of all SQL statements executed
+
+-[ RECORD 7 ]-----+-----------------------------------------------------------------------
+
+name              | seg
+
+default_version   | 1.4
+
+installed_version | 
+
+comment           | data type for representing line segments or floating-point intervals
+
+-[ RECORD 8 ]-----+-----------------------------------------------------------------------
+
+name              | citext
+
+default_version   | 1.6
+
+installed_version | 
+
+comment           | data type for case-insensitive character strings
+
+-[ RECORD 9 ]-----+-----------------------------------------------------------------------
+
+name              | unaccent
+
+default_version   | 1.1
+
+
+postgres=# CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+CREATE EXTENSION
+
+postgres=# SELECT * FROM pg_extension WHERE extname = 'pgcrypto';
+
+-[ RECORD 1 ]--+---------
+
+oid            | 73736
+
+extname        | pgcrypto
+
+extowner       | 10
+
+extnamespace   | 2200
+
+extrelocatable | t
+
+extversion     | 1.3
+
+extconfig      | 
+
+extcondition   | 
+
+
+
+
