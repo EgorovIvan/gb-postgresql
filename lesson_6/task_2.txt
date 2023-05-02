@@ -1,0 +1,36 @@
+
+vk=> CREATE OR REPLACE PROCEDURE user_without_photo(
+vk(> users_id INT)
+vk-> LANGUAGE PLPGSQL AS
+vk-> $$
+vk$> DECLARE id RECORD;
+vk$> BEGIN
+vk$> FOR id IN
+vk$> SELECT users.id, users.main_photo_id
+vk$> FROM users
+vk$> JOIN (SELECT photo.id, owner_id
+vk$> FROM photo) AS new_photo
+vk$> ON users.main_photo_id = new_photo.id
+vk$> WHERE users.id != owner_id
+vk$> LOOP
+vk$> UPDATE users SET main_photo_id = NULL;
+vk$> END LOOP;
+vk$> COMMIT;
+vk$> END;
+vk$> $$;
+CREATE PROCEDURE
+
+
+vk=> SELECT * FROM users WHERE id = 10;
+ id | first_name | last_name |               email               |     phone      |     created_at      |                   user_contacts                    | main_photo_id
+----+------------+-----------+-----------------------------------+----------------+---------------------+----------------------------------------------------+---------------
+ 10 | Mollie     | Fake      | cursus.nunc.mauris@protonmail.net | 1-348-515-7576 | 2022-09-13 00:00:00 | (1-348-515-7576,cursus.nunc.mauris@protonmail.net) |          1149
+(1 row)
+
+vk=> CALL user_without_photo(10);
+CALL
+vk=> SELECT * FROM users WHERE id = 10;
+ id | first_name | last_name |               email               |     phone      |     created_at      |                   user_contacts                    | main_photo_id
+----+------------+-----------+-----------------------------------+----------------+---------------------+----------------------------------------------------+---------------
+ 10 | Mollie     | Fake      | cursus.nunc.mauris@protonmail.net | 1-348-515-7576 | 2022-09-13 00:00:00 | (1-348-515-7576,cursus.nunc.mauris@protonmail.net) |
+(1 row)
