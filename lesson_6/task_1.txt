@@ -1,0 +1,63 @@
+ИЗМЕНЯЕМОЕ 
+                          
+vk=> CREATE VIEW video_1 AS
+vk-> SELECT id, url, owner_id, size
+vk-> FROM video
+vk-> WHERE size > 900;
+CREATE VIEW
+
+vk=> SELECT * FROM video_1;
+ id |             url              | owner_id | size
+----+------------------------------+----------+------
+  6 | https://zoom.us/group/9      |        4 |  958
+ 13 | http://cnn.com/en-us         |       97 |  992
+ 15 | https://nytimes.com/fr       |       68 |  990
+  3 | https://youtube.com/settings |       35 |  911
+ 22 | https://bbc.co.uk/fr         |       41 |  974
+ 28 | http://walmart.com/group/9   |       11 |  996
+ 43 | https://ebay.com/sub         |       59 |  913
+ 44 | http://instagram.com/group/9 |       48 |  970
+ 94 | http://pinterest.com/one     |        8 |  941
+(9 rows)
+
+
+vk=> UPDATE video_1 SET size = 899 WHERE id = 6;
+UPDATE 1
+vk=> SELECT * FROM video_1;
+ id |             url              | owner_id | size
+----+------------------------------+----------+------
+ 13 | http://cnn.com/en-us         |       97 |  992
+ 15 | https://nytimes.com/fr       |       68 |  990
+  3 | https://youtube.com/settings |       35 |  911
+ 22 | https://bbc.co.uk/fr         |       41 |  974
+ 28 | http://walmart.com/group/9   |       11 |  996
+ 43 | https://ebay.com/sub         |       59 |  913
+ 44 | http://instagram.com/group/9 |       48 |  970
+ 94 | http://pinterest.com/one     |        8 |  941
+(8 rows)
+
+НЕИЗМЕНЯЕМОЕ
+
+vk=> CREATE VIEW video_3 AS
+vk-> SELECT id, url, owner_id, size
+vk-> FROM video LIMIT 7;
+CREATE VIEW
+
+vk=> SELECT * FROM video_3;
+ id |             url              | owner_id | size
+----+------------------------------+----------+------
+  5 | https://google.com/sub       |       40 |  746
+  7 | https://zoom.us/group/9      |       78 |  597
+  8 | https://youtube.com/settings |       33 |  549
+  9 | https://cnn.com/one          |       87 |  111
+ 10 | https://ebay.com/user/110    |       99 |  359
+ 11 | https://instagram.com/site   |       71 |  498
+ 12 | https://yahoo.com/en-us      |       72 |  763
+(7 rows)
+
+vk=> UPDATE video_3 SET size = 100 WHERE id = 5;
+ERROR:  cannot update view "video_3"
+DETAIL:  Views containing LIMIT or OFFSET are not automatically updatable.
+HINT:  To enable updating the view, provide an INSTEAD OF UPDATE trigger or an unc
+onditional ON UPDATE DO INSTEAD rule.
+vk=>
